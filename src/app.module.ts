@@ -23,6 +23,6 @@ import configuration from './configs/configuration';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(TraceIdMiddleware).forRoutes('*');
+    consumer.apply(TraceIdMiddleware).forRoutes('*path');
   }
 }

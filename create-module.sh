@@ -1,1 +1,1 @@
-nest g module $1 && nest g service $1 && nest g controller $1
+nest g module $1 && nest g service $1 && nest g controller $1 && nest g validator $1
