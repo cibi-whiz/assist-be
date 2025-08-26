@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import { loggerMiddleware } from './middleware/logger.middleware';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { AllExceptionsFilter } from './middleware/all-exceptions.filter';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,6 +14,16 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.use(helmet());
   app.use(loggerMiddleware);
+
+  const config = new DocumentBuilder()
+    .setTitle('My API')
+    .setDescription('API documentation for my app')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api-docs', app, document);
 
   await app.listen(process.env.PORT ?? 3000);
 }
