@@ -16,8 +16,8 @@ async function bootstrap() {
   app.use(loggerMiddleware);
 
   const config = new DocumentBuilder()
-    .setTitle('My API')
-    .setDescription('API documentation for my app')
+    .setTitle('Whizlabs API')
+    .setDescription('API documentation for Whizlabs')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
