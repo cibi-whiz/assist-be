@@ -7,10 +7,142 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
-  id        String   @id @default(ulid())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model OrgList {
+  id         Int      @id @default(autoincrement())
+  org_code   String   @unique
+  name       String
+  site_name  String
+  logo       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  portals AssistPortal[]
+
+  @@map("org_list")
+}
+
+model AssistPortal {
+  id          Int      @id @default(autoincrement())
+  org_id      Int
+  portal_name String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  org     OrgList        @relation(fields: [org_id], references: [id])
+  modules AssistModule[]
+
+  @@map("assist_portals")
+}
+
+model AssistModule {
+  id         Int      @id @default(autoincrement())
+  code       String
+  name       String
+  parent_id  Int?
+  portal_id  Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  created_by Int
+  updated_by Int
+
+  portal    AssistPortal     @relation(fields: [portal_id], references: [id])
+  parent    AssistModule?    @relation("ModuleToParent", fields: [parent_id], references: [id])
+  children  AssistModule[]   @relation("ModuleToParent")
+  resources AssistResource[]
+
+  @@map("assist_modules")
+}
+
+enum ResourceTypes {
+  MENU
+}
+
+model AssistResource {
+  id            Int           @id @default(autoincrement())
+  module_id     Int
+  resource_code String
+  type          ResourceTypes
+  created_at    DateTime      @default(now())
+  updated_at    DateTime      @updatedAt
+
+  module      AssistModule               @relation(fields: [module_id], references: [id])
+  permissions AssistResourcePermission[]
+
+  @@map("assist_resources")
+}
+
+model AssistMenu {
+  id         Int      @id @default(autoincrement())
+  label      String
+  slug       String
+  icon       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("assist_menus")
+}
+
+model AssistPermission {
+  id          Int      @id @default(autoincrement())
+  resource_id String
+  action      String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  resourcePermissions AssistResourcePermission[]
+  roleAccess          AssistRoleAccess[]
+
+  @@map("assist_permissions")
+}
+
+model AssistResourcePermission {
+  id            Int      @id @default(autoincrement())
+  resource_id   Int
+  permission_id Int
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  resource   AssistResource   @relation(fields: [resource_id], references: [id])
+  permission AssistPermission @relation(fields: [permission_id], references: [id])
+
+  @@map("assist_resource_permissions")
+}
+
+model AssistRole {
+  id         Int      @id @default(autoincrement())
+  role_name  String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  created_by Int
+
+  roleAccess AssistRoleAccess[]
+  userRoles  AssistUserRole[]
+
+  @@map("assist_roles")
+}
+
+model AssistRoleAccess {
+  id            Int      @id @default(autoincrement())
+  permission_id Int
+  role_id       Int
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  permission AssistPermission @relation(fields: [permission_id], references: [id])
+  role       AssistRole       @relation(fields: [role_id], references: [id])
+
+  @@map("assist_role_accesses")
+}
+
+model AssistUserRole {
+  id          Int      @id @default(autoincrement())
+  role_id     Int
+  user_id     Int
+  assigned_by Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  role AssistRole @relation(fields: [role_id], references: [id])
+
+  @@map("assist_user_roles")
 }
