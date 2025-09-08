@@ -143,6 +143,24 @@ model AssistUserRole {
   updated_at  DateTime @updatedAt
 
   role AssistRole @relation(fields: [role_id], references: [id])
+  user AssistUser @relation(fields: [user_id], references: [id])
 
   @@map("assist_user_roles")
+}
+
+model AssistUser {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  password    String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  deleted_at  DateTime?
+  created_by  Int
+  updated_by  Int
+  deleted_by  Int?
+
+  userRoles AssistUserRole[]
+
+  @@map("assist_users")
 }

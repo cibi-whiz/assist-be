@@ -14,6 +14,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.use(helmet());
   app.use(loggerMiddleware);
+  app.enableCors();
 
   const config = new DocumentBuilder()
     .setTitle('Whizlabs API')

@@ -9,6 +9,7 @@ export const LoginSchema = z.object({
 export const RegisterSchema = z.object({
     email: z.email(),
     password: z.string().min(8),
+    name: z.string(),
 });
 
 export class LoginDTO extends createZodDto(LoginSchema) { }
