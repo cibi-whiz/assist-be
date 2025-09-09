@@ -4,6 +4,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { LoginDTO, RegisterDTO } from './auth.validate';
 
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -36,9 +37,10 @@ export class AuthService {
     return {
       success: true,
       access_token: token,
-      user: {
+      data: {
         id: user.id,
         email: user.email,
+        name: user.name,
       },
     };
   }
