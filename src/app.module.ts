@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { RolesModule } from './modules/roles/roles.module';
+import { CaslModule } from './casl/casl.module';
 import configuration from './configs/configuration';
 
 @Module({
@@ -15,8 +17,10 @@ import configuration from './configs/configuration';
       load: [configuration],
     }),
     PrismaModule,
+    CaslModule,
     UsersModule,
     AuthModule,
+    RolesModule
   ],
   controllers: [AppController],
   providers: [AppService],
