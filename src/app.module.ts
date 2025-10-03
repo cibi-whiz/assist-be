@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { CaslModule } from './casl/casl.module';
+import { TablesModule } from './modules/tables/tables.module';
 import configuration from './configs/configuration';
 
 @Module({
@@ -20,7 +21,8 @@ import configuration from './configs/configuration';
     CaslModule,
     UsersModule,
     AuthModule,
-    RolesModule
+    RolesModule,
+    TablesModule
   ],
   controllers: [AppController],
   providers: [AppService],
