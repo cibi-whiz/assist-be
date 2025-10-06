@@ -9,6 +9,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { CaslModule } from './casl/casl.module';
 import { TablesModule } from './modules/tables/tables.module';
+import { JsonStorageModule } from './modules/json-storage/json-storage.module';
 import configuration from './configs/configuration';
 
 @Module({
@@ -22,7 +23,8 @@ import configuration from './configs/configuration';
     UsersModule,
     AuthModule,
     RolesModule,
-    TablesModule
+    TablesModule,
+    JsonStorageModule
   ],
   controllers: [AppController],
   providers: [AppService],
